@@ -34,7 +34,6 @@ export default function InviteGuestsModal({
   
     fetchConvidados();
   }, []); // Apenas executa uma vez quando o modal for aberto
-  
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,7 +47,9 @@ export default function InviteGuestsModal({
 
         console.log("Convidado adicionado com ID:", docRef.id);
 
+        // Passa o email e o nome diretamente para addNewEmailToInvite
         addNewEmailToInvite(email, name);
+
         setEmail('');
         setName('');
         setError(null);

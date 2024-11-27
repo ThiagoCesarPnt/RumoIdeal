@@ -32,17 +32,12 @@ export default function CreateTripPage() {
 
   function closeGuestsModal() {setIsGuestsModalOpen(false)}
 
-  function addNewEmailToInvite(event: FormEvent<HTMLFormElement>) {event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const email = data.get('email')?.toString()
-    if (!email) {return}
-    if (emailsToInvite.includes(email)) {return}
-    setEmailsToInvite([
-      ...emailsToInvite,
-      email
-    ])
-  event.currentTarget.reset()
+  function addNewEmailToInvite(email: string, name: string) {
+    if (!email) { return; }
+    if (emailsToInvite.includes(email)) { return; }
+    setEmailsToInvite([...emailsToInvite, email]);
   }
+  
 
   function removeEmailFromInvites(emailToRemove: string) {
     const newEmailList = emailsToInvite.filter(email => email !== emailToRemove)
