@@ -37,7 +37,12 @@ export default function SignUp() {
       // Você pode redirecionar ou fazer outra ação após o registro bem-sucedido
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
-      setError("Erro ao criar usuário: " + error.message);
+      
+      if (error instanceof Error) {
+        setError("Erro ao criar usuário: " + error.message);
+      } else {
+        setError("Erro desconhecido ao criar usuário.");
+      }
     }
   };
 
