@@ -1,9 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import PageIllustration from "../../components/page-illustration";
 import { Plane } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { collection, getDocs, query, where, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 import { getAuth } from "firebase/auth";
@@ -19,7 +19,7 @@ export default function ViagensMarcadas() {
   const [viagens, setViagens] = useState<Viagem[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Função para buscar as viagens do Firestore filtrando pelo e-mail do usuário autenticado
+  // Função para buscar as viagens do Firestore
   const fetchViagens = async () => {
     setLoading(true);
     try {
@@ -70,9 +70,8 @@ export default function ViagensMarcadas() {
     }
   };
 
-  // Garantir que fetchViagens e outras interações com o DOM ou localStorage só ocorram no cliente
+  // Usar useEffect para garantir que o código seja executado no cliente
   useEffect(() => {
-    // Verifica se o código está sendo executado no cliente (no navegador)
     if (typeof window !== "undefined") {
       fetchViagens();
     }
