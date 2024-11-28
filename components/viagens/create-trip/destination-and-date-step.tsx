@@ -69,7 +69,12 @@ export default function DestinationAndDateStep({
     try {
       // Adiciona o documento na coleção "trips" com ID gerado automaticamente
       const docRef = await addDoc(collection(db, "trips"), tripData);
-      console.log("Dados da viagem salvos com sucesso:", docRef.id);
+
+      // Salvar o ID da viagem no localStorage
+      localStorage.setItem("selectedTripId", docRef.id);
+      console.log("ID da viagem salvo no localStorage:", docRef.id);
+
+      // Abrir a etapa de convidados
       openGuestsInput();
     } catch (error) {
       console.error("Erro ao salvar dados da viagem:", error);

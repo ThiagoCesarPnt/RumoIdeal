@@ -3,14 +3,13 @@ import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { db } from '../../../../config/firebaseConfig';
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
 
 interface Activity {
   id: string;
   title: string;
   occurs_at: string;
   date: string;
-  categoryId: string; // Adicionado para vincular as atividades à categoria
 }
 
 interface ActivitiesByDate {
@@ -18,47 +17,54 @@ interface ActivitiesByDate {
   activities: Activity[];
 }
 
-interface ActivitiesProps {
-  categoryId: string; // Recebe o ID da categoria como prop
-}
-
-export default function Activities({ categoryId }: ActivitiesProps) {
+export default function Activities() {
   const [activities, setActivities] = useState<ActivitiesByDate[]>([]);
+  const selectedTripId = localStorage.getItem("selectedTripId"); // Recupera o ID da viagem selecionada
 
   const fetchActivities = async () => {
-    const activitiesCollection = collection(db, "activities");
-    const activitiesSnapshot = await getDocs(activitiesCollection);
-    const activitiesList: Activity[] = activitiesSnapshot.docs
-      .map(doc => ({
+    if (!selectedTripId) {
+      console.error("Nenhuma viagem selecionada.");
+      return;
+    }
+
+    try {
+      // Cria a consulta filtrando pelo ID da viagem
+      const activitiesCollection = collection(db, "activities");
+      const q = query(activitiesCollection, where("trip", "==", selectedTripId));
+      const activitiesSnapshot = await getDocs(q);
+
+      const activitiesList: Activity[] = activitiesSnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data() as Omit<Activity, 'id'>
-      }))
-      .filter(activity => activity.categoryId === categoryId); // Filtra as atividades pela categoria
+      }));
 
-    const activitiesByDate: ActivitiesByDate[] = activitiesList.reduce((acc: ActivitiesByDate[], activity) => {
-      const date = activity.date;
-      const existingDateIndex = acc.findIndex(item => item.date === date);
-      if (existingDateIndex > -1) {
-        acc[existingDateIndex].activities.push(activity);
-      } else {
-        acc.push({ date, activities: [activity] });
-      }
-      return acc;
-    }, []);
+      const activitiesByDate: ActivitiesByDate[] = activitiesList.reduce((acc: ActivitiesByDate[], activity) => {
+        const date = activity.date;
+        const existingDateIndex = acc.findIndex(item => item.date === date);
+        if (existingDateIndex > -1) {
+          acc[existingDateIndex].activities.push(activity);
+        } else {
+          acc.push({ date, activities: [activity] });
+        }
+        return acc;
+      }, []);
 
-    setActivities(activitiesByDate);
+      setActivities(activitiesByDate);
+    } catch (error) {
+      console.error("Erro ao buscar atividades:", error);
+    }
   };
 
   useEffect(() => {
     fetchActivities();
-  }, [categoryId]); // Atualiza ao mudar a categoria
+  }, []);
 
   const handleDeleteActivity = async (activityId: string) => {
     if (window.confirm("Você tem certeza que deseja excluir esta atividade?")) {
       try {
         const activityRef = doc(db, "activities", activityId);
         await deleteDoc(activityRef);
-        setActivities(prevActivities => 
+        setActivities(prevActivities =>
           prevActivities.map(category => ({
             ...category,
             activities: category.activities.filter(activity => activity.id !== activityId)
@@ -91,7 +97,7 @@ export default function Activities({ categoryId }: ActivitiesProps) {
                     </span>
                     <button onClick={() => handleDeleteActivity(activity.id)} className="text-red-500 hover:text-red-700 ml-2">
                       <Trash className="size-5" />
-                    </button>
+                    </button> 
                   </div>
                 </div>
               ))}
