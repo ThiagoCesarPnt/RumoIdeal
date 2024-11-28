@@ -22,6 +22,7 @@ export default function SignIn() {
 
       // Salva o estado de autenticação no localStorage
       localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("email", email);
 
       setSuccessMessage("Login realizado com sucesso!");
       setTimeout(() => router.push("/"), 1500); // Redireciona após 1,5 segundos

@@ -13,20 +13,21 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [showMessage, setShowMessage] = useState(false); // Novo estado para controlar a mensagem
+  const [showMessage, setShowMessage] = useState(false); 
 
-  // Utilizando useEffect para redirecionar se o usuário estiver autenticado
+  
   useEffect(() => {
     if (user) {
-      setShowMessage(true); // Mostra a mensagem quando o usuário está logado
+      setShowMessage(true);
       const timer = setTimeout(() => {
-        router.push("/"); // Redireciona após 3 segundos
-      }, 3000); // Delay de 3000 milissegundos (3 segundos)
+        router.push("/"); 
+      }, 3000); 
 
-      return () => clearTimeout(timer); // Limpa o timer ao desmontar o componente
+      return () => clearTimeout(timer); 
     }
   }, [user, router]);
 
+  
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -34,7 +35,8 @@ export default function SignUp() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       console.log("Usuário criado com sucesso:", userCredential);
-      // Você pode redirecionar ou fazer outra ação após o registro bem-sucedido
+      localStorage.setItem("email", email);
+    
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
       
@@ -46,7 +48,9 @@ export default function SignUp() {
     }
   };
 
-  // Renderizando mensagem se o usuário já estiver logado
+
+
+
   if (showMessage && user) {
     return (
       <section className="flex items-center justify-center min-h-screen bg-gradient-to-b from-indigo-900 to-indigo-600">

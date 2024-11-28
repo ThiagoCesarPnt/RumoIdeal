@@ -14,7 +14,7 @@ interface DestinationAndDateStepProps {
   closeGuestsInput: () => void;
   openGuestsInput: () => void;
   setDestination: (destination: string) => void;
-  setEventStartAndEndDates: Dispatch<SetStateAction<{ from: Date; to: Date } | undefined>>; // Corrigido aqui
+  setEventStartAndEndDates: Dispatch<SetStateAction<{ from: Date; to: Date } | undefined>>; 
 }
 
 export default function DestinationAndDateStep({
@@ -57,6 +57,7 @@ export default function DestinationAndDateStep({
       return;
     }
 
+    const email=localStorage.getItem("email");
     // Gerar ID único baseado no destino
     const destinationId = destination.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""); // Exemplo: "Nova York" vira "nova-york"
 
@@ -64,6 +65,7 @@ export default function DestinationAndDateStep({
       destination,
       startDate: eventStartAndEndDates.from,
       endDate: eventStartAndEndDates.to,
+      createBy: email,
     };
 
     try {
