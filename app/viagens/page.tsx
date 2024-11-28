@@ -17,9 +17,11 @@ interface Viagem {
 
 export default function ViagensMarcadas() {
   const [viagens, setViagens] = useState<Viagem[]>([]);
+  const [loading, setLoading] = useState(false);
 
   // Função para buscar as viagens do Firestore filtrando pelo e-mail do usuário autenticado
   const fetchViagens = async () => {
+    setLoading(true);
     try {
       const auth = getAuth();
       const user = auth.currentUser;
@@ -47,6 +49,8 @@ export default function ViagensMarcadas() {
       setViagens(viagensList);
     } catch (error) {
       console.error("Erro ao buscar viagens:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,7 +88,9 @@ export default function ViagensMarcadas() {
           </h1>
 
           <div className="p-4 bg-opacity-50 bg-zinc-900">
-            {viagens.length > 0 ? (
+            {loading ? (
+              <span className="text-zinc-400">Carregando viagens...</span>
+            ) : viagens.length > 0 ? (
               viagens.map((viagem) => (
                 <div key={viagem.id} className="w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-700 space-y-5 mb-4 relative">
                   <div className="space-y-1.5">
@@ -99,7 +105,9 @@ export default function ViagensMarcadas() {
                   <Link
                     href="/viagens/organizarviagem"
                     onClick={() => {
-                      localStorage.setItem("selectedTripId", viagem.id); // Salva o ID no Local Storage
+                      if (typeof window !== "undefined") {
+                        localStorage.setItem("selectedTripId", viagem.id); // Salva o ID no Local Storage
+                      }
                     }}
                     className="text-indigo-400 hover:underline"
                   >
