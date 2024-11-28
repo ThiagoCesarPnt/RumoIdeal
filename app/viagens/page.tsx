@@ -15,7 +15,7 @@ interface Viagem {
   endDate: any;
 }
 
-export default function ViagensMarcadas() {
+export default function ViagensMarcadas() { 
   const [viagens, setViagens] = useState<Viagem[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -70,6 +70,7 @@ export default function ViagensMarcadas() {
     }
   };
 
+  // Usando useEffect para garantir que a manipulação do localStorage seja feita no cliente
   useEffect(() => {
     fetchViagens();
   }, []);
@@ -105,8 +106,9 @@ export default function ViagensMarcadas() {
                   <Link
                     href="/viagens/organizarviagem"
                     onClick={() => {
+                      // Verifica se está no lado do cliente antes de usar o localStorage
                       if (typeof window !== "undefined") {
-                        localStorage.setItem("selectedTripId", viagem.id); // Salva o ID no Local Storage
+                        localStorage.setItem("selectedTripId", viagem.id);
                       }
                     }}
                     className="text-indigo-400 hover:underline"
