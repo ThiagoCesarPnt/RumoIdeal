@@ -1,55 +1,66 @@
-"use client"; // Torna este componente um Componente de Cliente
+"use client";
 
 import PageIllustration from "../../components/page-illustration";
 import { Plane } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react"; 
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore"; 
-import { db } from '../../config/firebaseConfig'; 
+import { useEffect, useState } from "react";
+import { collection, getDocs, query, where, doc, deleteDoc } from "firebase/firestore";
+import { db } from "../../config/firebaseConfig";
+import { getAuth } from "firebase/auth";
 
-// Definindo a interface para os dados da viagem
 interface Viagem {
   id: string;
   destination: string;
-  startDate: any; // Pode ser um Timestamp do Firebase, então usamos 'any'
-  endDate: any; // Pode ser um Timestamp do Firebase, então usamos 'any'
+  startDate: any;
+  endDate: any;
 }
 
-export default function ViagensMarcadas() {
-  const [viagens, setViagens] = useState<Viagem[]>([]); // Estado agora é tipado como Viagem[]
 
-  // Função para buscar as viagens do Firestore
+export default function ViagensMarcadas() {
+  const [viagens, setViagens] = useState<Viagem[]>([]);
+
+  // Função para buscar as viagens do Firestore filtrando pelo e-mail do usuário autenticado
   const fetchViagens = async () => {
     try {
-      const viagensCollection = collection(db, "trips"); // Referência à coleção de viagens
-      const viagensSnapshot = await getDocs(viagensCollection); // Obtém os documentos da coleção
-      const viagensList: Viagem[] = viagensSnapshot.docs.map(doc => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        console.error("Usuário não autenticado.");
+        return;
+      }
+
+      const email = user.email; // E-mail do usuário autenticado
+      const viagensCollection = collection(db, "trips");
+      const viagensQuery = query(viagensCollection, where("createBy", "==", email)); // Filtro pelo campo createBy
+      const viagensSnapshot = await getDocs(viagensQuery);
+
+      const viagensList: Viagem[] = viagensSnapshot.docs.map((doc) => {
         const data = doc.data();
         return {
           id: doc.id,
-          destination: data.destination || '', // Garantindo valores padrão caso algum dado esteja ausente
-          startDate: data.startDate ? data.startDate.toDate() : new Date(), // Verificando se startDate existe
-          endDate: data.endDate ? data.endDate.toDate() : new Date() // Verificando se endDate existe
+          destination: data.destination || "",
+          startDate: data.startDate ? data.startDate.toDate() : new Date(),
+          endDate: data.endDate ? data.endDate.toDate() : new Date(),
         };
       });
 
-      setViagens(viagensList); // Atualiza o estado com as viagens
+      setViagens(viagensList);
     } catch (error) {
-      console.error("Erro ao buscar viagens:", error); // Log de erro se ocorrer um problema
+      console.error("Erro ao buscar viagens:", error);
     }
   };
 
-  // Função para excluir a viagem
+  // Função para excluir uma viagem
   const handleDeleteTrip = async (tripId: string) => {
-    const tripRef = doc(db, "trips", tripId); // Referência ao documento da viagem a ser excluída
-    const confirmDelete = window.confirm("Você tem certeza que deseja excluir esta viagem?"); // Confirmação de exclusão
+    const tripRef = doc(db, "trips", tripId);
+    const confirmDelete = window.confirm("Você tem certeza que deseja excluir esta viagem?");
 
     if (confirmDelete) {
       try {
-        await deleteDoc(tripRef); // Exclui o documento
+        await deleteDoc(tripRef);
         console.log("Viagem excluída com sucesso:", tripId);
-        // Atualiza a lista de viagens após a exclusão
-        fetchViagens(); 
+        fetchViagens(); // Atualiza a lista de viagens após a exclusão
       } catch (error) {
         console.error("Erro ao excluir a viagem:", error);
       }
@@ -57,7 +68,7 @@ export default function ViagensMarcadas() {
   };
 
   useEffect(() => {
-    fetchViagens(); 
+    fetchViagens();
   }, []);
 
   return (
@@ -73,9 +84,9 @@ export default function ViagensMarcadas() {
             Viagens Marcadas
           </h1>
 
-          <div className="p-4  bg-opacity-50 bg-zinc-900">
+          <div className="p-4 bg-opacity-50 bg-zinc-900">
             {viagens.length > 0 ? (
-              viagens.map(viagem => (
+              viagens.map((viagem) => (
                 <div key={viagem.id} className="w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-700 space-y-5 mb-4 relative">
                   <div className="space-y-1.5">
                     <div className="flex justify-between">
@@ -89,9 +100,9 @@ export default function ViagensMarcadas() {
                   <Link href="/viagens/organizarviagem" className="text-indigo-400 hover:underline">
                     Organizar Viagem
                   </Link>
-                  
-                  <button 
-                    onClick={() => handleDeleteTrip(viagem.id)} 
+
+                  <button
+                    onClick={() => handleDeleteTrip(viagem.id)}
                     className="absolute bottom-2 right-2 text-xs text-white bg-red-600 hover:bg-red-700 rounded px-2 py-1 transition duration-200"
                   >
                     Excluir
