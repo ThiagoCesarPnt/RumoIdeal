@@ -4,8 +4,9 @@ import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 import { db } from "../../../config/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore"; // Importa `setDoc` para criar documento com ID personalizado
+import { doc, setDoc } from "firebase/firestore"; 
 import { getAuth } from "firebase/auth";
+import { Dispatch, SetStateAction } from 'react';
 
 interface DestinationAndDateStepProps {
   isGuestsInputOpen: boolean;
@@ -13,7 +14,7 @@ interface DestinationAndDateStepProps {
   closeGuestsInput: () => void;
   openGuestsInput: () => void;
   setDestination: (destination: string) => void;
-  setEventStartAndEndDates: (dates: DateRange | undefined) => void;
+  setEventStartAndEndDates: Dispatch<SetStateAction<{ from: Date; to: Date } | undefined>>; // Corrigido aqui
 }
 
 export default function DestinationAndDateStep({
