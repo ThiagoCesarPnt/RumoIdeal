@@ -1,6 +1,6 @@
 "use client";
 
-import VideoThumb from "@/public/images/hero-image-01.jpg";
+import VideoThumb from "../public/images/hero-image-01.jpg";
 import ModalVideo from "../components/modal-video";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../config/AuthContext"; // Certifique-se que `useAuth` está configurado corretamente
