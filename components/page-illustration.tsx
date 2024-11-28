@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Fundo from "@/public/images/fundo.png";
+import Fundo from "../public/images/fundo.png";
 
 export default function PageIllustration() {
   return (

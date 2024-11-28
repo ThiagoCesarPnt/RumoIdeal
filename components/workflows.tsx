@@ -1,5 +1,5 @@
 import Image from "next/image";
-import calendarioEdata from "@/public/images/icone-de-calendario-e-relogio-simbolo-de-data-e-hora-icone-de-evento-sinal-de-vetor-plana-isolado-no-branco_635979-718-removebg-preview.png";
+import calendarioEdata from "../public/images/icone-de-calendario-e-relogio-simbolo-de-data-e-hora-icone-de-evento-sinal-de-vetor-plana-isolado-no-branco_635979-718-removebg-preview.png";
 import Spotlight from "../components/spotlight";
 
 export default function Workflows() {
