@@ -77,9 +77,8 @@ export default function ViagensMarcadas() {
       setIsClient(true); // Ativar flag de cliente
       fetchViagens(); // Chamar fetchViagens quando o código rodar no cliente
     }
-  }, []); // Dependências vazias para rodar apenas uma vez após a renderização
+  }, []); 
 
-  // Função para salvar a viagem selecionada
   const handleOrganizarViagem = (viagemId: string) => {
     if (isClient) {
       localStorage.setItem("selectedTripId", viagemId);  // Apenas no cliente
