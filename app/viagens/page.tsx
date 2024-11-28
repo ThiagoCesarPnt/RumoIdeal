@@ -72,8 +72,17 @@ export default function ViagensMarcadas() {
 
   // Usando useEffect para garantir que a manipulação do localStorage seja feita no cliente
   useEffect(() => {
-    fetchViagens();
+    // Verifica se o código está sendo executado no cliente
+    if (typeof window !== "undefined") {
+      fetchViagens();
+    }
   }, []);
+
+  const handleOrganizarViagem = (viagemId: string) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("selectedTripId", viagemId);
+    }
+  };
 
   return (
     <div>
@@ -105,12 +114,7 @@ export default function ViagensMarcadas() {
                   </div>
                   <Link
                     href="/viagens/organizarviagem"
-                    onClick={() => {
-                      // Verifica se está no lado do cliente antes de usar o localStorage
-                      if (typeof window !== "undefined") {
-                        localStorage.setItem("selectedTripId", viagem.id);
-                      }
-                    }}
+                    onClick={() => handleOrganizarViagem(viagem.id)}
                     className="text-indigo-400 hover:underline"
                   >
                     Organizar Viagem
@@ -142,3 +146,4 @@ export default function ViagensMarcadas() {
     </div>
   );
 }
+  
