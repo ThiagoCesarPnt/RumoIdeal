@@ -2,7 +2,7 @@ import { MapPin, Calendar, Settings2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/config/firebaseConfig"; 
+import { db } from "../../../../config/firebaseConfig"; 
 import { useParams } from "next/navigation";
 
 interface Trip {

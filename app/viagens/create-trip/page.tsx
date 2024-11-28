@@ -5,9 +5,8 @@ import InviteGuestsModal from "../../../components/viagens/create-trip/invite-gu
 import { FormEvent, useState } from "react";
 import { DateRange } from "react-day-picker";
 import DestinationAndDateStep from "../../../components/viagens/create-trip/destination-and-date-step";
-import PageIllustration from "@/components/page-illustration";
-import { Plane } from "lucide-react";
-import Logo from "@/components/ui/logo";
+import PageIllustration from "../../../components/page-illustration";
+import Logo from "../../../components/ui/logo";
 
 export default function CreateTripPage() {
 

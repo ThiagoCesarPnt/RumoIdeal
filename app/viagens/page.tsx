@@ -1,6 +1,6 @@
 "use client"; // Torna este componente um Componente de Cliente
 
-import PageIllustration from "@/components/page-illustration";
+import PageIllustration from "../../components/page-illustration";
 import { Plane } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react"; 

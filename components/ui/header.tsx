@@ -5,7 +5,7 @@ import Link from "next/link";
 import Logo from "./logo";
 import { signOut } from "firebase/auth"; // Importando a função de logout
 import { useRouter } from "next/navigation"; // Importando useRouter para redirecionamento
-import { auth } from "@/config/firebaseConfig";
+import { auth } from "../../config/firebaseConfig";
 
 export default function Header() {
   const { user } = useAuth(); // Obtendo o usuário do contexto de autenticação

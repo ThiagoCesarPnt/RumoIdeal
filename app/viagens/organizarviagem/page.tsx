@@ -7,8 +7,8 @@ import Guests from "../../../components/viagens/organizarviagem/guests/guests";
 import Activities from "../../../components/viagens/organizarviagem/activities/activities";
 import DestinationAndDateHeader from "../../../components/viagens/organizarviagem/links/destination-and-date-header";
 import CreateImportantLinksModal from "../../../components/viagens/organizarviagem/links/create-important-links-modal";
-import ImportantLinks from "@/components/viagens/organizarviagem/links/important-links";
-import PageIllustration from "@/components/page-illustration";
+import ImportantLinks from "../../../components/viagens/organizarviagem/links/important-links";
+import PageIllustration from "../../../components/page-illustration";
 
 export default function TripDetailsPage() {
 
