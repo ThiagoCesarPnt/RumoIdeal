@@ -15,7 +15,6 @@ interface Viagem {
   endDate: any;
 }
 
-
 export default function ViagensMarcadas() {
   const [viagens, setViagens] = useState<Viagem[]>([]);
 
@@ -97,7 +96,13 @@ export default function ViagensMarcadas() {
                       {`${viagem.startDate.toLocaleDateString()} até ${viagem.endDate.toLocaleDateString()}`}
                     </a>
                   </div>
-                  <Link href="/viagens/organizarviagem" className="text-indigo-400 hover:underline">
+                  <Link
+                    href="/viagens/organizarviagem"
+                    onClick={() => {
+                      localStorage.setItem("selectedTripId", viagem.id); // Salva o ID no Local Storage
+                    }}
+                    className="text-indigo-400 hover:underline"
+                  >
                     Organizar Viagem
                   </Link>
 

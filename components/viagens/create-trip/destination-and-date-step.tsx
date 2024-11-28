@@ -4,7 +4,7 @@ import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 import { db } from "../../../config/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore"; 
+import { collection, addDoc } from "firebase/firestore"; 
 import { getAuth } from "firebase/auth";
 import { Dispatch, SetStateAction } from 'react';
 
@@ -57,9 +57,7 @@ export default function DestinationAndDateStep({
       return;
     }
 
-    const email=localStorage.getItem("email");
-    // Gerar ID único baseado no destino
-    const destinationId = destination.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""); // Exemplo: "Nova York" vira "nova-york"
+    const email = localStorage.getItem("email");
 
     const tripData = {
       destination,
@@ -69,9 +67,9 @@ export default function DestinationAndDateStep({
     };
 
     try {
-      // Salvar o documento no Firestore com o destino como ID
-      await setDoc(doc(db, "trips", destinationId), tripData);
-      console.log("Dados da viagem salvos com sucesso:", tripData);
+      // Adiciona o documento na coleção "trips" com ID gerado automaticamente
+      const docRef = await addDoc(collection(db, "trips"), tripData);
+      console.log("Dados da viagem salvos com sucesso:", docRef.id);
       openGuestsInput();
     } catch (error) {
       console.error("Erro ao salvar dados da viagem:", error);
