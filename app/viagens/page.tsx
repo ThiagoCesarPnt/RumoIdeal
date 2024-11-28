@@ -70,13 +70,13 @@ export default function ViagensMarcadas() {
     }
   };
 
-  // Usando useEffect para garantir que a manipulação do localStorage seja feita no cliente
+  // Garantir que fetchViagens e outras interações com o DOM ou localStorage só ocorram no cliente
   useEffect(() => {
-    // Verifica se o código está sendo executado no cliente
+    // Verifica se o código está sendo executado no cliente (no navegador)
     if (typeof window !== "undefined") {
       fetchViagens();
     }
-  }, []);
+  }, []); // Dependências vazias para rodar apenas uma vez após a renderização
 
   const handleOrganizarViagem = (viagemId: string) => {
     if (typeof window !== "undefined") {
@@ -146,4 +146,3 @@ export default function ViagensMarcadas() {
     </div>
   );
 }
-  
