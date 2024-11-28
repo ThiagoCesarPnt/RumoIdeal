@@ -18,7 +18,7 @@ interface Viagem {
 export default function ViagensMarcadas() { 
   const [viagens, setViagens] = useState<Viagem[]>([]);
   const [loading, setLoading] = useState(false);
-  const [isClient, setIsClient] = useState(false);  // Flag para garantir que o código é executado no cliente
+  const [isClient, setIsClient] = useState(false); // Flag para indicar que está no cliente
 
   // Função para buscar as viagens do Firestore
   const fetchViagens = async () => {
@@ -73,7 +73,6 @@ export default function ViagensMarcadas() {
 
   // Usar useEffect para garantir que o código seja executado no cliente
   useEffect(() => {
-    // Verificar se estamos no cliente
     if (typeof window !== "undefined") {
       setIsClient(true); // Ativar flag de cliente
       fetchViagens(); // Chamar fetchViagens quando o código rodar no cliente
@@ -149,3 +148,4 @@ export default function ViagensMarcadas() {
     </div>
   );
 }
+  
