@@ -80,11 +80,13 @@ export default function ViagensMarcadas() {
   }, []); // Dependências vazias para rodar apenas uma vez após a renderização
 
   // Função para salvar a viagem selecionada
-  const handleOrganizarViagem = (viagemId: string) => {
-    if (isClient) {
-      localStorage.setItem("selectedTripId", viagemId);  // Apenas no cliente
-    }
-  };
+  // Função para salvar a viagem selecionada
+const handleOrganizarViagem = (viagemId: string) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem("selectedTripId", viagemId);  // Acesso ao localStorage direto no cliente
+  }
+};
+
 
   return (
     <div>
