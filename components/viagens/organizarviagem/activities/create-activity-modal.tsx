@@ -8,12 +8,14 @@ import { ptBR } from "date-fns/locale";
 
 interface CreateActivityModalProps {
   closeCreateActivityModal: () => void;
-  addActivity?: (activity: { id: string; title: string; occurs_at: string; date: string; }) => void; // `addActivity` agora é opcional
+  addActivity?: (activity: { id: string; title: string; occurs_at: string; date: string; categoryId: string; }) => void;
+  categoryId: string; // ID da categoria onde a atividade será cadastrada
 }
 
 export default function CreateActivityModal({
   closeCreateActivityModal,
-  addActivity
+  addActivity,
+  categoryId
 }: CreateActivityModalProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string>('00:00');
@@ -22,7 +24,7 @@ export default function CreateActivityModal({
   function openDatePicker() {
     setIsDatePickerOpen(true);
   }
-  
+
   function closeDatePicker() {
     setIsDatePickerOpen(false);
   }
@@ -37,7 +39,8 @@ export default function CreateActivityModal({
       const activityData = {
         title,
         occurs_at: occurs_at.toISOString(),
-        date: occurs_at.toISOString().split('T')[0]
+        date: occurs_at.toISOString().split('T')[0],
+        categoryId // Vinculando o ID da categoria à atividade
       };
 
       // Adicionando a atividade ao Firestore e obtendo o id gerado

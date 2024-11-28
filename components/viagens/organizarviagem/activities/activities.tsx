@@ -10,6 +10,7 @@ interface Activity {
   title: string;
   occurs_at: string;
   date: string;
+  categoryId: string; // Adicionado para vincular as atividades à categoria
 }
 
 interface ActivitiesByDate {
@@ -17,16 +18,22 @@ interface ActivitiesByDate {
   activities: Activity[];
 }
 
-export default function Activities() {
+interface ActivitiesProps {
+  categoryId: string; // Recebe o ID da categoria como prop
+}
+
+export default function Activities({ categoryId }: ActivitiesProps) {
   const [activities, setActivities] = useState<ActivitiesByDate[]>([]);
 
   const fetchActivities = async () => {
     const activitiesCollection = collection(db, "activities");
     const activitiesSnapshot = await getDocs(activitiesCollection);
-    const activitiesList: Activity[] = activitiesSnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data() as Omit<Activity, 'id'>
-    }));
+    const activitiesList: Activity[] = activitiesSnapshot.docs
+      .map(doc => ({
+        id: doc.id,
+        ...doc.data() as Omit<Activity, 'id'>
+      }))
+      .filter(activity => activity.categoryId === categoryId); // Filtra as atividades pela categoria
 
     const activitiesByDate: ActivitiesByDate[] = activitiesList.reduce((acc: ActivitiesByDate[], activity) => {
       const date = activity.date;
@@ -44,7 +51,7 @@ export default function Activities() {
 
   useEffect(() => {
     fetchActivities();
-  }, []);
+  }, [categoryId]); // Atualiza ao mudar a categoria
 
   const handleDeleteActivity = async (activityId: string) => {
     if (window.confirm("Você tem certeza que deseja excluir esta atividade?")) {
