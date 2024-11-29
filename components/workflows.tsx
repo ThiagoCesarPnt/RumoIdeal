@@ -1,6 +1,8 @@
 import Image from "next/image";
 import calendarioEdata from "../public/images/icone-de-calendario-e-relogio-simbolo-de-data-e-hora-icone-de-evento-sinal-de-vetor-plana-isolado-no-branco_635979-718-removebg-preview.png";
 import Spotlight from "../components/spotlight";
+import convideSeusAmigos from "../public/images/convideseusamigos.png";
+import task from "../public/images/task.png";
 
 export default function Workflows() {
   return (
@@ -23,7 +25,6 @@ export default function Workflows() {
               Se você está cansado da desordem e busca um ambiente mais harmonioso, veio ao lugar certo!
             </p>
           </div>
-          {/* Spotlight items */}
           <Spotlight className="group mx-auto grid max-w-sm items-start gap-6 lg:max-w-none lg:grid-cols-3">
             {/* Card 1 */}
             <a
@@ -111,7 +112,7 @@ export default function Workflows() {
                 {/* Image */}
                 <Image
                   className="inline-flex"
-                  src={calendarioEdata}
+                  src={convideSeusAmigos}
                   width={350}
                   height={288}
                   alt="Workflow 02"
@@ -165,7 +166,7 @@ export default function Workflows() {
                 {/* Image */}
                 <Image
                   className="inline-flex"
-                  src={calendarioEdata}
+                  src={task}
                   width={350}
                   height={288}
                   alt="Workflow 03"
