@@ -44,10 +44,7 @@ export default function TripDetailsPage() {
   const [isCreateImportantLinksModalOpen, setIsCreateImportantLinksModalOpen] = useState(false);
   const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false);
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
-  const [emailsToInvite, setEmailsToInvite] = useState([
-    "diego@rocketseat.com.br",
-    "john@acme.com",
-  ]);
+  const [emailsToInvite, setEmailsToInvite] = useState([]);
 
   function openGuestsInput() {
     setIsGuestsInputOpen(true);

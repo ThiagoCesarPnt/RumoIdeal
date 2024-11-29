@@ -43,6 +43,7 @@ export default function DestinationAndDateStep({
       ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(" até ").concat(format(eventStartAndEndDates.to, "d' de 'LLL"))
       : null;
 
+      
   const handleContinue = async () => {
     const auth = getAuth();
     const user = auth.currentUser;

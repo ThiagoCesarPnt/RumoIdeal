@@ -2,11 +2,11 @@ import { MapPin, Calendar } from "lucide-react";
 import { format } from "date-fns";
 
 export default function DestinationAndDateHeader() {
-  // Dados estáticos da viagem
+
   const trip = {
     destination: "Miami, Florida",
-    startDate: new Date(2024, 11, 1), // 1º de dezembro de 2024
-    endDate: new Date(2024, 11, 7), // 7 de dezembro de 2024
+    startDate: new Date(2024, 11, 1), 
+    endDate: new Date(2024, 11, 7), 
   };
 
   const displayedDate = `${format(trip.startDate, "d 'de' LLL")} até ${format(
