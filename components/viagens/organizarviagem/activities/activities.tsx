@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { db } from '../../../../config/firebaseConfig';
 import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
-import axios from "axios"; // Importe o axios
+import axios from "axios";
 
 interface Activity {
   id: string;
@@ -19,16 +19,14 @@ interface ActivitiesByDate {
 }
 
 interface WeatherForecast {
-  date: string;
   temp: number;
-  description: string;
 }
 
 export default function Activities() {
   const [activities, setActivities] = useState<ActivitiesByDate[]>([]);
-  const [weatherForecast, setWeatherForecast] = useState<WeatherForecast[]>([]); // Agora um array para previsões
+  const [currentWeather, setCurrentWeather] = useState<WeatherForecast | null>(null);
   const selectedTripId = localStorage.getItem("selectedTripId");
-  const destination = localStorage.getItem("destination"); // Recupera o valor de destination
+  const destination = localStorage.getItem("destination");
 
   const fetchActivities = async () => {
     if (!selectedTripId) {
@@ -37,7 +35,6 @@ export default function Activities() {
     }
 
     try {
-      // Cria a consulta filtrando pelo ID da viagem
       const activitiesCollection = collection(db, "activities");
       const q = query(activitiesCollection, where("trip", "==", selectedTripId));
       const activitiesSnapshot = await getDocs(q);
@@ -46,7 +43,6 @@ export default function Activities() {
         id: doc.id,
         ...doc.data() as Omit<Activity, 'id'>
       }));
-
       const activitiesByDate: ActivitiesByDate[] = activitiesList.reduce((acc: ActivitiesByDate[], activity) => {
         const date = activity.date;
         const existingDateIndex = acc.findIndex(item => item.date === date);
@@ -67,14 +63,21 @@ export default function Activities() {
   const fetchWeather = async () => {
     if (!destination) {
       console.error("Destino não encontrado no localStorage.");
+      setCurrentWeather(null);  // Clear weather if destination is missing
       return;
     }
-
-    const url = `https://api.hgbrasil.com/weather?key=caf90c00&city_name=${destination}`; // Concatena o destino na URL
+  
+    const url = `https://api.allorigins.win/raw?url=https://api.hgbrasil.com/weather?key=caf90c00&city_name=${destination}`;
+    console.log("URL da requisição:", url);
+    console.log("Destino:", destination);
 
     try {
       const response = await axios.get(url);
-      setWeatherForecast(response.data.results.forecast); // Agora estamos armazenando a previsão de todos os dias
+      console.log("Resposta da API:", response.data);  // Verifique a resposta da API
+      const currentWeatherData = response.data.results;
+      setCurrentWeather({
+        temp: currentWeatherData.temp
+      });
     } catch (error) {
       console.error("Erro ao buscar clima:", error);
     }
@@ -103,6 +106,8 @@ export default function Activities() {
     }
   };
 
+  console.log("Estado currentWeather:", currentWeather);  // Verifique o estado
+  
   return (
     <div className="space-y-8">
       {activities.map(category => (
@@ -110,18 +115,12 @@ export default function Activities() {
           <div className="flex gap-2 items-baseline">
             <span className="text-xl text-zinc-300 font-semibold">Dia {format(new Date(category.date), 'd')}</span>
             <span className="text-xs text-zinc-500">{format(new Date(category.date), 'EEEE', { locale: ptBR })}</span>
-
-            {/* Exibir a temperatura do clima para o dia específico */}
-            <span className="">Temperatura:</span>
-            {weatherForecast.length > 0 ? (
-              // Encontrar a previsão de clima para a data atual
-              <>
-                {weatherForecast
-                  .filter(forecast => forecast.date === category.date) // Filtra pela data
-                  .map(forecast => (
-                    <span key={forecast.date}>{forecast.temp}°C, {forecast.description}</span>
-                  ))}
-              </>
+  
+            <span>Temperatura Atual:</span>
+            {currentWeather ? (
+              <span>
+                {currentWeather.temp}°C
+              </span>
             ) : (
               <span>Carregando...</span>
             )}
