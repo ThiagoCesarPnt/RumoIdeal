@@ -4,7 +4,7 @@ import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 import { db } from "../../../config/firebaseConfig";
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { Dispatch, SetStateAction } from 'react';
 
@@ -14,7 +14,7 @@ interface DestinationAndDateStepProps {
   closeGuestsInput: () => void;
   openGuestsInput: () => void;
   setDestination: (destination: string) => void;
-  setEventStartAndEndDates: Dispatch<SetStateAction<{ from: Date; to: Date } | undefined>>; 
+  setEventStartAndEndDates: Dispatch<SetStateAction<{ from: Date; to: Date } | undefined>>;
 }
 
 export default function DestinationAndDateStep({
@@ -38,8 +38,8 @@ export default function DestinationAndDateStep({
 
   const displayedDate =
     eventStartAndEndDates &&
-    eventStartAndEndDates.from &&
-    eventStartAndEndDates.to
+      eventStartAndEndDates.from &&
+      eventStartAndEndDates.to
       ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(" até ").concat(format(eventStartAndEndDates.to, "d' de 'LLL"))
       : null;
 
@@ -57,7 +57,7 @@ export default function DestinationAndDateStep({
       return;
     }
 
-    
+
     const email = localStorage.getItem("email");
 
     const tripData = {

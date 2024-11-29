@@ -20,6 +20,7 @@ interface ActivitiesByDate {
 
 interface WeatherForecast {
   temp: number;
+  conditionSlug: string;
 }
 
 export default function Activities() {
@@ -63,20 +64,21 @@ export default function Activities() {
   const fetchWeather = async () => {
     if (!destination) {
       console.error("Destino não encontrado no localStorage.");
-      setCurrentWeather(null);  // Clear weather if destination is missing
+      setCurrentWeather(null);
       return;
     }
-  
+
     const url = `https://api.allorigins.win/raw?url=https://api.hgbrasil.com/weather?key=caf90c00&city_name=${destination}`;
     console.log("URL da requisição:", url);
     console.log("Destino:", destination);
 
     try {
       const response = await axios.get(url);
-      console.log("Resposta da API:", response.data);  // Verifique a resposta da API
+      console.log("Resposta da API:", response.data);
       const currentWeatherData = response.data.results;
       setCurrentWeather({
-        temp: currentWeatherData.temp
+        temp: currentWeatherData.temp,
+        conditionSlug: currentWeatherData.condition_slug
       });
     } catch (error) {
       console.error("Erro ao buscar clima:", error);
@@ -85,8 +87,8 @@ export default function Activities() {
 
   useEffect(() => {
     fetchActivities();
-    fetchWeather(); // Chama a função para buscar o clima
-  }, []); // Executa ao montar o componente
+    fetchWeather();
+  }, []);
 
   const handleDeleteActivity = async (activityId: string) => {
     if (window.confirm("Você tem certeza que deseja excluir esta atividade?")) {
@@ -106,8 +108,8 @@ export default function Activities() {
     }
   };
 
-  console.log("Estado currentWeather:", currentWeather);  // Verifique o estado
-  
+  console.log("Estado currentWeather:", currentWeather);
+
   return (
     <div className="space-y-8">
       {activities.map(category => (
@@ -115,17 +117,22 @@ export default function Activities() {
           <div className="flex gap-2 items-baseline">
             <span className="text-xl text-zinc-300 font-semibold">Dia {format(new Date(category.date), 'd')}</span>
             <span className="text-xs text-zinc-500">{format(new Date(category.date), 'EEEE', { locale: ptBR })}</span>
-  
+
             <span>Temperatura Atual:</span>
             {currentWeather ? (
-              <span>
-                {currentWeather.temp}°C
-              </span>
+              <div className="flex items-center gap-2">
+                <span>{currentWeather.temp}°C</span>
+                <img
+                  src={`https://assets.hgbrasil.com/weather/icons/conditions/${currentWeather.conditionSlug}.svg`}
+                  alt={currentWeather.conditionSlug}
+                  className="w-6 h-6"
+                />
+              </div>
             ) : (
               <span>Carregando...</span>
             )}
           </div>
-          
+
           {category.activities.length > 0 ? (
             <div>
               {category.activities.map(activity => (
@@ -138,7 +145,7 @@ export default function Activities() {
                     </span>
                     <button onClick={() => handleDeleteActivity(activity.id)} className="text-red-500 hover:text-red-700 ml-2">
                       <Trash className="size-5" />
-                    </button> 
+                    </button>
                   </div>
                 </div>
               ))}
