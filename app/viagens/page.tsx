@@ -79,9 +79,10 @@ export default function ViagensMarcadas() {
     }
   }, []); 
 
-  const handleOrganizarViagem = (viagemId: string) => {
+  const handleOrganizarViagem = (viagemId: string,destination:string) => {
     if (isClient) {
-      localStorage.setItem("selectedTripId", viagemId);  // Apenas no cliente
+      localStorage.setItem("selectedTripId", viagemId);  
+      localStorage.setItem("destination", destination);
     }
   };
 
@@ -115,7 +116,7 @@ export default function ViagensMarcadas() {
                   </div>
                   <Link
                     href="/viagens/organizarviagem"
-                    onClick={() => handleOrganizarViagem(viagem.id)}
+                    onClick={() => handleOrganizarViagem(viagem.id, viagem.destination)}
                     className="text-indigo-400 hover:underline"
                   >
                     Organizar Viagem

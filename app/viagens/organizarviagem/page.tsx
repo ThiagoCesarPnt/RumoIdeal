@@ -2,9 +2,8 @@
 
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import dynamic from "next/dynamic"; // Importando dynamic para evitar SSR
+import dynamic from "next/dynamic"; 
 
-// Importando componentes que podem depender de localStorage de forma dinâmica
 const CreateActivityModal = dynamic(
   () => import("../../../components/viagens/organizarviagem/activities/create-activity-modal"),
   { ssr: false }

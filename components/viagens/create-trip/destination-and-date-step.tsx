@@ -57,6 +57,7 @@ export default function DestinationAndDateStep({
       return;
     }
 
+    
     const email = localStorage.getItem("email");
 
     const tripData = {
@@ -72,6 +73,7 @@ export default function DestinationAndDateStep({
 
       // Salvar o ID da viagem no localStorage
       localStorage.setItem("selectedTripId", docRef.id);
+      localStorage.setItem("destination", tripData.destination);
       console.log("ID da viagem salvo no localStorage:", docRef.id);
 
       // Abrir a etapa de convidados

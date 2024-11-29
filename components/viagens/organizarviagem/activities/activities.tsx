@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { db } from '../../../../config/firebaseConfig';
 import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
+import axios from "axios"; // Importe o axios
 
 interface Activity {
   id: string;
@@ -17,9 +18,17 @@ interface ActivitiesByDate {
   activities: Activity[];
 }
 
+interface WeatherForecast {
+  date: string;
+  temp: number;
+  description: string;
+}
+
 export default function Activities() {
   const [activities, setActivities] = useState<ActivitiesByDate[]>([]);
-  const selectedTripId = localStorage.getItem("selectedTripId"); // Recupera o ID da viagem selecionada
+  const [weatherForecast, setWeatherForecast] = useState<WeatherForecast[]>([]); // Agora um array para previsões
+  const selectedTripId = localStorage.getItem("selectedTripId");
+  const destination = localStorage.getItem("destination"); // Recupera o valor de destination
 
   const fetchActivities = async () => {
     if (!selectedTripId) {
@@ -55,9 +64,26 @@ export default function Activities() {
     }
   };
 
+  const fetchWeather = async () => {
+    if (!destination) {
+      console.error("Destino não encontrado no localStorage.");
+      return;
+    }
+
+    const url = `https://api.hgbrasil.com/weather?key=caf90c00&city_name=${destination}`; // Concatena o destino na URL
+
+    try {
+      const response = await axios.get(url);
+      setWeatherForecast(response.data.results.forecast); // Agora estamos armazenando a previsão de todos os dias
+    } catch (error) {
+      console.error("Erro ao buscar clima:", error);
+    }
+  };
+
   useEffect(() => {
     fetchActivities();
-  }, []);
+    fetchWeather(); // Chama a função para buscar o clima
+  }, []); // Executa ao montar o componente
 
   const handleDeleteActivity = async (activityId: string) => {
     if (window.confirm("Você tem certeza que deseja excluir esta atividade?")) {
@@ -84,7 +110,23 @@ export default function Activities() {
           <div className="flex gap-2 items-baseline">
             <span className="text-xl text-zinc-300 font-semibold">Dia {format(new Date(category.date), 'd')}</span>
             <span className="text-xs text-zinc-500">{format(new Date(category.date), 'EEEE', { locale: ptBR })}</span>
+
+            {/* Exibir a temperatura do clima para o dia específico */}
+            <span className="">Temperatura:</span>
+            {weatherForecast.length > 0 ? (
+              // Encontrar a previsão de clima para a data atual
+              <>
+                {weatherForecast
+                  .filter(forecast => forecast.date === category.date) // Filtra pela data
+                  .map(forecast => (
+                    <span key={forecast.date}>{forecast.temp}°C, {forecast.description}</span>
+                  ))}
+              </>
+            ) : (
+              <span>Carregando...</span>
+            )}
           </div>
+          
           {category.activities.length > 0 ? (
             <div>
               {category.activities.map(activity => (
