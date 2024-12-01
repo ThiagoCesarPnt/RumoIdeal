@@ -8,7 +8,7 @@ export default function PageIllustration() {
       aria-hidden="true"
     >
       <Image
-        className="w-full h-full object-cover"
+        className="w-full h-full bg-no-repeat bg-scroll bg-cover bg-origin-border min-h-screen"
         src={Fundo}
         alt="Fundo"
         layout="fill" 

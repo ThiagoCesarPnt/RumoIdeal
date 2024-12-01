@@ -15,19 +15,26 @@ export default function CreateImportantLinksModal({ closeCreateImportantLinkModa
     const title = data.get('title')?.toString();
     const url = data.get('url')?.toString();
 
-    if (title && url) { 
-      try {
-        const linksCollection = collection(db, "important_links"); 
-        await addDoc(linksCollection, { title, url }); 
+    const tripId = localStorage.getItem("selectedTripId"); // Recupera o ID da viagem salva no localStorage
 
-        console.log("Link salvo com sucesso:", { title, url }); 
-        closeCreateImportantLinkModal(); 
-        window.document.location.reload(); 
+    if (!tripId) {
+      console.error("ID da viagem não encontrado. Certifique-se de que uma viagem foi selecionada.");
+      return;
+    }
+
+    if (title && url) {
+      try {
+        const linksCollection = collection(db, "important_links");
+        await addDoc(linksCollection, { title, url, tripId }); // Inclui o ID da viagem ao salvar o link
+
+        console.log("Link salvo com sucesso:", { title, url, tripId });
+        closeCreateImportantLinkModal();
+        window.document.location.reload();
       } catch (error) {
-        console.error("Erro ao salvar link:", error); 
+        console.error("Erro ao salvar link:", error);
       }
     } else {
-      console.log("Título ou URL não fornecidos."); 
+      console.log("Título ou URL não fornecidos.");
     }
   }
 

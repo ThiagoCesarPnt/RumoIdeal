@@ -20,11 +20,18 @@ export default function InviteGuestsModal({
   const [error, setError] = useState<string | null>(null);
   const [convidados, setConvidados] = useState<any[]>([]); // Estado para armazenar os convidados
 
+  // Obter o ID da viagem do localStorage
+  const tripId = localStorage.getItem("selectedTripId");
+
   useEffect(() => {
     const fetchConvidados = async () => {
       try {
+        // Buscar convidados associados ao ID da viagem
         const convidadosSnapshot = await getDocs(collection(db, "convidados"));
-        const convidadosList = convidadosSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+        const convidadosList = convidadosSnapshot.docs
+          .map(doc => ({ ...doc.data(), id: doc.id }))
+          .filter(convidado => convidado.tripId === tripId); // Filtra pela viagem
+
         console.log("Convidados:", convidadosList);  // Verificando o retorno
         setConvidados(convidadosList);
       } catch (err) {
@@ -33,16 +40,18 @@ export default function InviteGuestsModal({
     };
   
     fetchConvidados();
-  }, []); // Apenas executa uma vez quando o modal for aberto
+  }, [tripId]); // Refaz a busca sempre que o ID da viagem mudar
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (email && name) {
+    if (email && name && tripId) {
       try {
+        // Adicionando o tripId ao convidado
         const docRef = await addDoc(collection(db, "convidados"), {
           name,
           email,
-          createdAt: new Date()
+          createdAt: new Date(),
+          tripId: tripId, // Salva o ID da viagem junto ao convidado
         });
 
         console.log("Convidado adicionado com ID:", docRef.id);
@@ -56,7 +65,9 @@ export default function InviteGuestsModal({
 
         // Após adicionar o convidado, recarrega a lista de convidados
         const convidadosSnapshot = await getDocs(collection(db, "convidados"));
-        const convidadosList = convidadosSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+        const convidadosList = convidadosSnapshot.docs
+          .map(doc => ({ ...doc.data(), id: doc.id }))
+          .filter(convidado => convidado.tripId === tripId); // Filtra pela viagem
         setConvidados(convidadosList);
 
       } catch (err) {
@@ -64,7 +75,7 @@ export default function InviteGuestsModal({
         setError("Erro ao adicionar o convidado. Tente novamente.");
       }
     } else {
-      setError("Nome e e-mail são obrigatórios.");
+      setError("Nome, e-mail e ID da viagem são obrigatórios.");
     }
   };
 
@@ -85,7 +96,6 @@ export default function InviteGuestsModal({
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-xl bg-zinc-900 space-y-5">
-        {/* Título e botão X na mesma linha e parte superior direita */}
         <div className="flex justify-between items-center w-full">
           <h3 className="text-lg text-zinc-100">Convidados</h3>
           <button onClick={closeGuestsModal} className="text-zinc-400 hover:text-zinc-300">

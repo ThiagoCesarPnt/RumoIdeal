@@ -28,6 +28,7 @@ export default function DestinationAndDateStep({
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [destination, setLocal] = useState<string>("");
 
+  // Abrir e fechar o seletor de datas
   function openDatePicker() {
     setIsDatePickerOpen(true);
   }
@@ -38,12 +39,12 @@ export default function DestinationAndDateStep({
 
   const displayedDate =
     eventStartAndEndDates &&
-      eventStartAndEndDates.from &&
-      eventStartAndEndDates.to
+    eventStartAndEndDates.from &&
+    eventStartAndEndDates.to
       ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(" até ").concat(format(eventStartAndEndDates.to, "d' de 'LLL"))
       : null;
 
-      
+  // Continuar para a próxima etapa
   const handleContinue = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
@@ -58,7 +59,6 @@ export default function DestinationAndDateStep({
       return;
     }
 
-
     const email = localStorage.getItem("email");
 
     const tripData = {
@@ -71,7 +71,7 @@ export default function DestinationAndDateStep({
     try {
       const docRef = await addDoc(collection(db, "trips"), tripData);
 
-      // Salvar o ID da viagem no localStorage
+      // Salvar o ID da viagem e o destino no localStorage
       localStorage.setItem("selectedTripId", docRef.id);
       localStorage.setItem("destination", tripData.destination);
       console.log("ID da viagem salvo no localStorage:", docRef.id);

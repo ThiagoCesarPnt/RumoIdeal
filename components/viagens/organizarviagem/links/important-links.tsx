@@ -7,6 +7,7 @@ interface Link {
   id: string;
   title: string;
   url: string;
+  tripId: string; // Adicionado para referência ao ID da viagem
 }
 
 export default function ImportantLinks() {
@@ -14,14 +15,23 @@ export default function ImportantLinks() {
 
   useEffect(() => {
     const fetchLinks = async () => {
-      const linksCollection = collection(db, "important_links"); 
-      const linksSnapshot = await getDocs(linksCollection);
-      const linksList = linksSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data() as Omit<Link, 'id'> 
-      }));
+      const tripId = localStorage.getItem("selectedTripId"); // Recupera o ID da viagem salva no localStorage
 
-      setLinks(linksList); 
+      if (!tripId) {
+        console.error("ID da viagem não encontrado. Certifique-se de que uma viagem foi selecionada.");
+        return;
+      }
+
+      const linksCollection = collection(db, "important_links");
+      const linksSnapshot = await getDocs(linksCollection);
+      const linksList = linksSnapshot.docs
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data() as Omit<Link, 'id'>,
+        }))
+        .filter(link => link.tripId === tripId); // Filtra os links pelo ID da viagem
+
+      setLinks(linksList);
     };
 
     fetchLinks();
@@ -32,7 +42,6 @@ export default function ImportantLinks() {
       const linkRef = doc(db, "important_links", linkId);
       await deleteDoc(linkRef);
 
-    
       setLinks(prevLinks => prevLinks.filter(link => link.id !== linkId));
       console.log(`Link ${linkId} excluído com sucesso.`);
     } catch (error) {

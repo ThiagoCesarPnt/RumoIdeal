@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { db, collection, addDoc, deleteDoc, getDocs, doc } from "../../../../config/firebaseConfig"; 
 import { useParams } from "next/navigation";
 import InviteGuestsModal from "../../create-trip/invite-guests-modal"; 
+
 interface Participant {
   id: string;
   name: string | null;
@@ -17,7 +18,6 @@ export default function Guests() {
   const { eventId } = useParams();
   const [convidados, setConvidados] = useState<any[]>([]); 
 
-
   const fetchParticipants = async () => {
     const querySnapshot = await getDocs(collection(db, "events", eventId!, "participants"));
     const participantsList = querySnapshot.docs.map((doc) => ({
@@ -28,11 +28,14 @@ export default function Guests() {
   };
 
   const fetchConvidados = async () => {
-    const querySnapshot = await getDocs(collection(db, "events", eventId!, "convidados")); 
-    const convidadosList = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const querySnapshot = await getDocs(collection(db, "events", eventId!, "convidados"));
+    const convidadosList = querySnapshot.docs
+      .map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }))
+      .filter((convidado) => convidado.eventId === eventId); // Filtra os convidados pelo eventId
+
     console.log("Convidados encontrados:", convidadosList); 
     setConvidados(convidadosList);
   };
@@ -81,7 +84,6 @@ export default function Guests() {
       <h2 className="font-semibold text-xl">Convidados</h2>
 
       <div className="space-y-5">
-        {/* Renderizando os participantes do evento */}
         {participants.length > 0 ? (
           participants.map((participant, index) => (
             <div key={participant.id} className="flex items-center justify-between gap-4">
