@@ -9,7 +9,6 @@ export default function Workflows() {
     <section>
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="pb-12 md:pb-20">
-          {/* Section header */}
           <div className="mx-auto max-w-3xl pb-12 text-center md:pb-20">
             <div className="inline-flex items-center gap-3 pb-3 before:h-px before:w-8 before:bg-gradient-to-r before:from-transparent before:to-indigo-200/50 after:h-px after:w-8 after:bg-gradient-to-l after:from-transparent after:to-indigo-200/50">
               <span className="inline-flex bg-gradient-to-r from-indigo-500 to-indigo-200 bg-clip-text text-transparent">
@@ -38,7 +37,7 @@ export default function Workflows() {
                      after:duration-500 after:hover:opacity-20 before:group-hover:opacity-100"
               href="#0"
             >
-                <div className="relative z-20 h-full overflow-hidden rounded-[inherit] ">                {/* Arrow */}
+                <div className="relative z-20 h-full overflow-hidden rounded-[inherit] ">              
                 <div
                   className="absolute right-6 top-6 flex h-8 w-8 items-center justify-center rounded-full border border-gray-700/50 bg-gray-800/65 text-gray-200 opacity-0 transition-opacity group-hover/card:opacity-100"
                   aria-hidden="true"
@@ -55,7 +54,6 @@ export default function Workflows() {
                     />
                   </svg>
                 </div>
-                {/* Image */}
                 <Image
                   className="inline-flex"
                   src={calendarioEdata}
@@ -63,7 +61,6 @@ export default function Workflows() {
                   height={288}
                   alt="Workflow 03"
                 />
-               {/* Content */}
               <div className="p-6">
                   <div className="mb-3">
                     <span className="btn-sm relative rounded-full bg-gray-800/40 px-2.5 py-0.5 text-xs font-normal before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before:[background:linear-gradient(to_bottom,theme(colors.gray.700/.15),theme(colors.gray.700/.5))_border-box] before:[mask-composite:exclude_!important] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)] hover:bg-gray-800/60">
@@ -92,7 +89,6 @@ export default function Workflows() {
               href="#0"
             >
             <div className="relative z-20 h-full overflow-hidden rounded-[inherit] ">
-                {/* Arrow */}
                 <div
                   className="absolute right-6 top-6 flex h-8 w-8 items-center justify-center rounded-full border border-gray-700/50 bg-gray-800/65 text-gray-200 opacity-0 transition-opacity group-hover/card:opacity-100"
                   aria-hidden="true"
@@ -109,7 +105,6 @@ export default function Workflows() {
                     />
                   </svg>
                 </div>
-                {/* Image */}
                 <Image
                   className="inline-flex"
                   src={convideSeusAmigos}
@@ -117,7 +112,6 @@ export default function Workflows() {
                   height={288}
                   alt="Workflow 02"
                 />
-                {/* Content */}
                 <div className="p-6">
                   <div className="mb-3">
                     <span className="btn-sm relative rounded-full bg-gray-800/40 px-2.5 py-0.5 text-xs font-normal before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before:[background:linear-gradient(to_bottom,theme(colors.gray.700/.15),theme(colors.gray.700/.5))_border-box] before:[mask-composite:exclude_!important] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)] hover:bg-gray-800/60">
@@ -163,7 +157,6 @@ export default function Workflows() {
                     />
                   </svg>
                 </div>
-                {/* Image */}
                 <Image
                   className="inline-flex"
                   src={task}
@@ -171,7 +164,6 @@ export default function Workflows() {
                   height={288}
                   alt="Workflow 03"
                 />
-                {/* Content */}
                 <div className="p-6">
                   <div className="mb-3">
                     <span className="btn-sm relative rounded-full bg-gray-800/40 px-2.5 py-0.5 text-xs font-normal before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before:[background:linear-gradient(to_bottom,theme(colors.gray.700/.15),theme(colors.gray.700/.5))_border-box] before:[mask-composite:exclude_!important] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)] hover:bg-gray-800/60">

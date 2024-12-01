@@ -30,7 +30,6 @@ export default function ModalVideo({
   return (
     <div className="relative">
 
-      {/* Video thumbnail */}
       <button
         className="group relative flex items-center justify-center rounded-2xl focus:outline-none focus-visible:ring focus-visible:ring-indigo-200"
         onClick={() => {
@@ -50,7 +49,6 @@ export default function ModalVideo({
             alt={thumbAlt}
           />
         </figure>
-        {/* Play icon */}
         <span className="pointer-events-none absolute p-2.5 before:absolute before:inset-0 before:rounded-full before:bg-gray-950 before:duration-300 group-hover:before:scale-110">
           <span className="relative flex items-center gap-3">
             <svg
@@ -87,7 +85,6 @@ export default function ModalVideo({
           </span>
         </span>
       </button>
-      {/* End: Video thumbnail */}
 
       <Dialog
         initialFocus={videoRef}

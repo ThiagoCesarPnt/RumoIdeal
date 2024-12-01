@@ -11,8 +11,8 @@ export default function PageIllustration() {
         className="w-full h-full object-cover"
         src={Fundo}
         alt="Fundo"
-        layout="fill" // Para cobrir toda a área da página
-        priority // Carrega a imagem com prioridade
+        layout="fill" 
+        priority 
       />
     </div>
   );

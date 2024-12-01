@@ -69,7 +69,6 @@ export default function DestinationAndDateStep({
     };
 
     try {
-      // Adiciona o documento na coleção "trips" com ID gerado automaticamente
       const docRef = await addDoc(collection(db, "trips"), tripData);
 
       // Salvar o ID da viagem no localStorage

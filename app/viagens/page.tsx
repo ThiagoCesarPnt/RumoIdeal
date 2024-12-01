@@ -18,9 +18,9 @@ interface Viagem {
 export default function ViagensMarcadas() { 
   const [viagens, setViagens] = useState<Viagem[]>([]);
   const [loading, setLoading] = useState(false);
-  const [isClient, setIsClient] = useState(false); // Flag para indicar que está no cliente
+  const [isClient, setIsClient] = useState(false); 
 
-  // Função para buscar as viagens do Firestore
+  // Função para buscar as viagens
   const fetchViagens = async () => {
     setLoading(true);
     try {
@@ -32,9 +32,9 @@ export default function ViagensMarcadas() {
         return;
       }
 
-      const email = user.email; // E-mail do usuário autenticado
+      const email = user.email; 
       const viagensCollection = collection(db, "trips");
-      const viagensQuery = query(viagensCollection, where("createBy", "==", email)); // Filtro pelo campo createBy
+      const viagensQuery = query(viagensCollection, where("createBy", "==", email)); 
       const viagensSnapshot = await getDocs(viagensQuery);
 
       const viagensList: Viagem[] = viagensSnapshot.docs.map((doc) => {
@@ -74,8 +74,8 @@ export default function ViagensMarcadas() {
   // Usar useEffect para garantir que o código seja executado no cliente
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setIsClient(true); // Ativar flag de cliente
-      fetchViagens(); // Chamar fetchViagens quando o código rodar no cliente
+      setIsClient(true); 
+      fetchViagens(); 
     }
   }, []); 
 

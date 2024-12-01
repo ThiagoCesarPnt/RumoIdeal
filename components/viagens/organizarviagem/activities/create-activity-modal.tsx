@@ -42,21 +42,16 @@ export default function CreateActivityModal({
         date: occurs_at.toISOString().split('T')[0]
       };
 
-      // Adicionando a atividade ao Firestore e obtendo o id gerado
       const docRef = await addDoc(collection(db, "activities"), activityData);
 
-      // Criando a atividade com o id correto
       const activity = { id: docRef.id, ...activityData };
 
-      // Chamando a função addActivity para atualizar o estado no componente pai, se existir
       if (addActivity) {
         addActivity(activity);
       }
 
-      // Recarregando a página após criar a atividade
       window.location.reload();
 
-      // Fechando o modal
       closeCreateActivityModal();
     }
   }

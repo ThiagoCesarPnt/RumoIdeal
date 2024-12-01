@@ -1,7 +1,7 @@
 import { Link, Pencil, X } from "lucide-react";
 import { FormEvent } from "react";
-import { db } from '../../../../config/firebaseConfig'; // Certifique-se de que o caminho está correto
-import { collection, addDoc } from "firebase/firestore"; // Importando addDoc para adicionar novos documentos
+import { db } from '../../../../config/firebaseConfig'; 
+import { collection, addDoc } from "firebase/firestore"; 
 
 interface CreateImportantLinkModalProps {
   closeCreateImportantLinkModal: () => void;
@@ -15,19 +15,19 @@ export default function CreateImportantLinksModal({ closeCreateImportantLinkModa
     const title = data.get('title')?.toString();
     const url = data.get('url')?.toString();
 
-    if (title && url) { // Verifica se title e url estão preenchidos
+    if (title && url) { 
       try {
-        const linksCollection = collection(db, "important_links"); // Cria referência à coleção "important_links"
-        await addDoc(linksCollection, { title, url }); // Adiciona um novo documento com title e url
+        const linksCollection = collection(db, "important_links"); 
+        await addDoc(linksCollection, { title, url }); 
 
-        console.log("Link salvo com sucesso:", { title, url }); // Log para confirmar que o link foi salvo
-        closeCreateImportantLinkModal(); // Fecha o modal após salvar
-        window.document.location.reload(); // Atualiza a página (opcional)
+        console.log("Link salvo com sucesso:", { title, url }); 
+        closeCreateImportantLinkModal(); 
+        window.document.location.reload(); 
       } catch (error) {
-        console.error("Erro ao salvar link:", error); // Log de erro caso ocorra algum problema
+        console.error("Erro ao salvar link:", error); 
       }
     } else {
-      console.log("Título ou URL não fornecidos."); // Log se title ou url não forem fornecidos
+      console.log("Título ou URL não fornecidos."); 
     }
   }
 

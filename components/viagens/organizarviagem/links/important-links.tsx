@@ -1,7 +1,7 @@
-import { Link2, Trash } from "lucide-react"; // Importando o ícone de lixeira
+import { Link2, Trash } from "lucide-react"; 
 import { useState, useEffect } from "react";
-import { db } from '../../../../config/firebaseConfig'; // Ajuste o caminho conforme necessário
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore"; // Importando deleteDoc e doc
+import { db } from '../../../../config/firebaseConfig'; 
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore"; 
 
 interface Link {
   id: string;
@@ -10,18 +10,18 @@ interface Link {
 }
 
 export default function ImportantLinks() {
-  const [links, setLinks] = useState<Link[]>([]); // Estado para armazenar os links
+  const [links, setLinks] = useState<Link[]>([]); 
 
   useEffect(() => {
     const fetchLinks = async () => {
-      const linksCollection = collection(db, "important_links"); // Nome da coleção onde os links estão
+      const linksCollection = collection(db, "important_links"); 
       const linksSnapshot = await getDocs(linksCollection);
       const linksList = linksSnapshot.docs.map(doc => ({
         id: doc.id,
-        ...doc.data() as Omit<Link, 'id'> // Garantindo que o tipo está correto
+        ...doc.data() as Omit<Link, 'id'> 
       }));
 
-      setLinks(linksList); // Atualiza o estado com os links recuperados
+      setLinks(linksList); 
     };
 
     fetchLinks();
@@ -29,10 +29,10 @@ export default function ImportantLinks() {
 
   const handleDeleteLink = async (linkId: string) => {
     try {
-      const linkRef = doc(db, "important_links", linkId); // Referência do link a ser excluído
-      await deleteDoc(linkRef); // Excluindo do Firestore
+      const linkRef = doc(db, "important_links", linkId);
+      await deleteDoc(linkRef);
 
-      // Atualizando o estado para remover o link excluído da interface
+    
       setLinks(prevLinks => prevLinks.filter(link => link.id !== linkId));
       console.log(`Link ${linkId} excluído com sucesso.`);
     } catch (error) {
@@ -55,7 +55,7 @@ export default function ImportantLinks() {
                   </a>
                 </div>
                 <button onClick={() => handleDeleteLink(link.id)} className="text-red-500 hover:text-red-700 ml-2">
-                  <Trash className="size-5" /> {/* Botão para excluir o link */}
+                  <Trash className="size-5" />
                 </button>
               </div>
             </div>
