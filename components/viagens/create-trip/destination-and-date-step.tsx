@@ -71,9 +71,12 @@ export default function DestinationAndDateStep({
     try {
       const docRef = await addDoc(collection(db, "trips"), tripData);
 
-      // Salvar o ID da viagem e o destino no localStorage
+      // Salvar o ID da viagem, destino, e as datas no localStorage
       localStorage.setItem("selectedTripId", docRef.id);
       localStorage.setItem("destination", tripData.destination);
+      localStorage.setItem("startDate", tripData.startDate.toISOString()); // Salvando a data de início
+      localStorage.setItem("endDate", tripData.endDate.toISOString()); // Salvando a data de término
+
       console.log("ID da viagem salvo no localStorage:", docRef.id);
 
       // Abrir a etapa de convidados

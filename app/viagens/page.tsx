@@ -79,10 +79,12 @@ export default function ViagensMarcadas() {
     }
   }, []); 
 
-  const handleOrganizarViagem = (viagemId: string,destination:string) => {
+  const handleOrganizarViagem = (viagemId: string, destination: string, startDate: Date, endDate: Date) => {
     if (isClient) {
-      localStorage.setItem("selectedTripId", viagemId);  
+      localStorage.setItem("selectedTripId", viagemId);
       localStorage.setItem("destination", destination);
+      localStorage.setItem("startDate", startDate.toISOString()); // Salvando a data de início
+      localStorage.setItem("endDate", endDate.toISOString()); // Salvando a data de término
     }
   };
 
@@ -116,7 +118,7 @@ export default function ViagensMarcadas() {
                   </div>
                   <Link
                     href="/viagens/organizarviagem"
-                    onClick={() => handleOrganizarViagem(viagem.id, viagem.destination)}
+                    onClick={() => handleOrganizarViagem(viagem.id, viagem.destination, viagem.startDate, viagem.endDate)}
                     className="text-indigo-400 hover:underline"
                   >
                     Organizar Viagem
@@ -148,4 +150,3 @@ export default function ViagensMarcadas() {
     </div>
   );
 }
-    

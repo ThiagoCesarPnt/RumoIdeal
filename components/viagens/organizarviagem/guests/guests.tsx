@@ -34,7 +34,7 @@ export default function Guests() {
         id: doc.id,
         ...doc.data(),
       }))
-      .filter((convidado) => convidado.eventId === eventId); // Filtra os convidados pelo eventId
+      .filter((convidado) => convidado.eventId === eventId);
 
     console.log("Convidados encontrados:", convidadosList); 
     setConvidados(convidadosList);
@@ -84,30 +84,7 @@ export default function Guests() {
       <h2 className="font-semibold text-xl">Convidados</h2>
 
       <div className="space-y-5">
-        {participants.length > 0 ? (
-          participants.map((participant, index) => (
-            <div key={participant.id} className="flex items-center justify-between gap-4">
-              <div className="space-y-1.5">
-                <span className="block font-medium text-zinc-100">{participant.name ?? `Convidado ${index + 1}`}</span>
-                <span className="block text-sm text-zinc-100 truncate">{participant.email}</span>
-              </div>
 
-              {participant.is_confirmed ? (
-                <CheckCircle2 className="text-green-400 size-5 shrink-0" />
-              ) : (
-                <CircleDashed className="text-zinc-100 size-5 shrink-0" />
-              )}
-
-              <button onClick={() => removeParticipant(participant.id)} className="text-red-500 hover:text-red-700">
-                <Trash2 className="size-5" />
-              </button>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-100">Nenhum participante encontrado.</p>
-        )}
-
-        {/* Renderizando os convidados adicionais */}
         {convidados.length > 0 && 
           convidados.map((convidado, index) => (
             <div key={convidado.id} className="flex items-center justify-between gap-4">

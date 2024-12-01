@@ -1,31 +1,35 @@
 import { MapPin, Calendar } from "lucide-react";
-import { format } from "date-fns";
+import { useEffect, useState } from "react";
 
 export default function DestinationAndDateHeader() {
+  const [destination, setDestination] = useState<string>("");
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const trip = {
-    destination: "Miami, Florida",
-    startDate: new Date(2024, 11, 1), 
-    endDate: new Date(2024, 11, 7), 
-  };
+  // Carregar os dados do localStorage
+  useEffect(() => {
+    const storedDestination = localStorage.getItem("destination");
+    const storedStartDate = localStorage.getItem("startDate");
+    const storedEndDate = localStorage.getItem("endDate");
 
-  const displayedDate = `${format(trip.startDate, "d 'de' LLL")} até ${format(
-    trip.endDate,
-    "d 'de' LLL"
-  )}`;
+    if (storedDestination) setDestination(storedDestination);
+    if (storedStartDate) setStartDate(new Date(storedStartDate));
+    if (storedEndDate) setEndDate(new Date(storedEndDate));
+  }, []);
+
+  const formattedStartDate = startDate ? startDate.toLocaleDateString() : "";
+  const formattedEndDate = endDate ? endDate.toLocaleDateString() : "";
 
   return (
-    <div className="w-full px-4 h-16 rounded-xl bg-opacity-90 bg-zinc-700 shadow-shape flex items-center justify-between">
-      <div className="flex items-center gap-2">
+    <div className="h-16 bg-opacity-90 bg-zinc-700 px-4 rounded-xl flex items-center shadow-shape gap-3">
+      <div className="flex items-center gap-2 flex-1">
         <MapPin className="size-5 text-zinc-100" />
-        <span className="text-zinc-100">{trip.destination}</span>
+        <span className="text-lg text-zinc-100">{destination || "Destino não selecionado"}</span>
       </div>
 
-      <div className="flex items-center gap-5">
-        <div className="flex items-center gap-2">
-          <Calendar className="size-5 text-zinc-100" />
-          <span className="text-zinc-100">{displayedDate}</span>
-        </div>
+      <div className="flex items-center gap-2 text-lg text-zinc-100">
+        <Calendar className="size-5 text-zinc-100" />
+        <span>{formattedStartDate} até {formattedEndDate}</span>
       </div>
     </div>
   );
