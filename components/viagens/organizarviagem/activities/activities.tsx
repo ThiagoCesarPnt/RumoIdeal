@@ -45,7 +45,7 @@ export default function Activities() {
         ...doc.data() as Omit<Activity, 'id'>
       }));
 
-      // Ordenar as atividades por data e horário
+
       activitiesList.sort((a, b) => {
         if (a.date === b.date) {
           return new Date(a.occurs_at).getTime() - new Date(b.occurs_at).getTime();
@@ -53,7 +53,7 @@ export default function Activities() {
         return new Date(a.date).getTime() - new Date(b.date).getTime();
       });
 
-      // Agrupar as atividades por data
+
       const activitiesByDate: ActivitiesByDate[] = activitiesList.reduce((acc: ActivitiesByDate[], activity) => {
         const date = activity.date;
         const existingDateIndex = acc.findIndex(item => item.date === date);
@@ -151,7 +151,7 @@ export default function Activities() {
             <div>
               {category.activities.map(activity => (
                 <div key={activity.id} className="space-y-2.5">
-                  <div className="px-4 py-2.5 bg-zinc-700 bg-opacity-90 rounded-xl shadow-shape flex items-center gap-3">
+                  <div className="px-4 py-2.5 bg-zinc-700 bg-opacity-90 rounded-xl shadow-shape flex items-center gap-3 mb-1">
                     <CircleCheck className="size-5 text-lime-300" />
                     <span className="text-zinc-100">{activity.title}</span>
                     <span className="text-zinc-100 text-sm ml-auto">

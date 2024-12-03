@@ -67,7 +67,7 @@ export default function ImportantLinks() {
                     className="block text-xs text-zinc-100 truncate hover:text-zinc-200" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    title={link.url} // Exibe o link completo ao passar o mouse
+                    title={link.url} 
                   >
                     {truncateText(link.url, 40)}
                   </a>
