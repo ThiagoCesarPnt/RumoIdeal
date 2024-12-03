@@ -1,3 +1,4 @@
+//Caso seja usado algum dia
 "use client";
 
 import { useState, useRef } from "react";
@@ -77,11 +78,7 @@ export default function ModalVideo({
                 </linearGradient>
               </defs>
             </svg>
-            <span className="text-sm font-medium leading-tight text-gray-300">
-              Watch Demo
-              <span className="text-gray-600"> - </span>
-              3:47
-            </span>
+         
           </span>
         </span>
       </button>
