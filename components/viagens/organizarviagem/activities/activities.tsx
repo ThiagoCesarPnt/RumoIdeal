@@ -44,10 +44,20 @@ export default function Activities() {
         id: doc.id,
         ...doc.data() as Omit<Activity, 'id'>
       }));
+
+      // Ordenar as atividades por data e horário
+      activitiesList.sort((a, b) => {
+        if (a.date === b.date) {
+          return new Date(a.occurs_at).getTime() - new Date(b.occurs_at).getTime();
+        }
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      });
+
+      // Agrupar as atividades por data
       const activitiesByDate: ActivitiesByDate[] = activitiesList.reduce((acc: ActivitiesByDate[], activity) => {
         const date = activity.date;
         const existingDateIndex = acc.findIndex(item => item.date === date);
-        if (existingDateIndex ) {
+        if (existingDateIndex > -1) {
           acc[existingDateIndex].activities.push(activity);
         } else {
           acc.push({ date, activities: [activity] });
@@ -115,8 +125,12 @@ export default function Activities() {
       {activities.map(category => (
         <div key={category.date} className="space-y-2.5">
           <div className="flex gap-2 items-baseline">
-            <span className="text-xl text-zinc-300 font-semibold">Dia {format(new Date(category.date), 'd')}</span>
-            <span className="text-xs text-zinc-500">{format(new Date(category.date), 'EEEE', { locale: ptBR })}</span>
+            <span className="text-xl text-zinc-300 font-semibold">
+              Dia {format(new Date(category.date + 'T00:00:00'), 'd')}
+            </span>
+            <span className="text-xs text-zinc-500">
+              {format(new Date(category.date + 'T00:00:00'), 'EEEE', { locale: ptBR })}
+            </span>
 
             <span>Temperatura Atual:</span>
             {currentWeather ? (

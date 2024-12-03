@@ -49,6 +49,9 @@ export default function ImportantLinks() {
     }
   };
 
+  const truncateText = (text: string, maxLength: number) => 
+    text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+
   return (
     <div className="space-y-8">
       <div className="space-y-6">
@@ -59,8 +62,14 @@ export default function ImportantLinks() {
               <div className="flex items-center justify-between gap-4">
                 <div className="space-y-1.5">
                   <span className="block font-medium text-zinc-100">{link.title}</span>
-                  <a href={link.url} className="block text-xs text-zinc-100 truncate hover:text-zinc-200" target="_blank" rel="noopener noreferrer">
-                    {link.url}
+                  <a 
+                    href={link.url} 
+                    className="block text-xs text-zinc-100 truncate hover:text-zinc-200" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    title={link.url} // Exibe o link completo ao passar o mouse
+                  >
+                    {truncateText(link.url, 40)}
                   </a>
                 </div>
                 <button onClick={() => handleDeleteLink(link.id)} className="text-red-500 hover:text-red-700 ml-2">

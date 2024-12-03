@@ -29,32 +29,36 @@ export default function CreateActivityModal({
 
   async function createActivity(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
+  
     const title = event.currentTarget.title.value;
-    const occurs_at = selectedDate && selectedTime ? new Date(`${selectedDate.toISOString().split('T')[0]}T${selectedTime}`) : null;
-    const trip = localStorage.getItem("selectedTripId")
-
+    const occurs_at = selectedDate && selectedTime 
+      ? new Date(`${selectedDate.toISOString().split('T')[0]}T${selectedTime}:00`)
+      : null;
+  
     if (occurs_at) {
+      occurs_at.setMinutes(occurs_at.getMinutes() - occurs_at.getTimezoneOffset());
+  
+      const trip = localStorage.getItem("selectedTripId");
       const activityData = {
         trip,
         title,
         occurs_at: occurs_at.toISOString(),
-        date: occurs_at.toISOString().split('T')[0]
+        date: occurs_at.toISOString().split('T')[0],
       };
-
+  
       const docRef = await addDoc(collection(db, "activities"), activityData);
-
+  
       const activity = { id: docRef.id, ...activityData };
-
+  
       if (addActivity) {
         addActivity(activity);
       }
-
+  
       window.location.reload();
-
       closeCreateActivityModal();
     }
   }
+  
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
