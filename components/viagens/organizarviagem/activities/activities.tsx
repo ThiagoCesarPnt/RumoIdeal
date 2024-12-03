@@ -47,7 +47,7 @@ export default function Activities() {
       const activitiesByDate: ActivitiesByDate[] = activitiesList.reduce((acc: ActivitiesByDate[], activity) => {
         const date = activity.date;
         const existingDateIndex = acc.findIndex(item => item.date === date);
-        if (existingDateIndex > -1) {
+        if (existingDateIndex ) {
           acc[existingDateIndex].activities.push(activity);
         } else {
           acc.push({ date, activities: [activity] });

@@ -1,14 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import { auth } from "../../../config/firebaseConfig"; // ajuste conforme a estrutura
-import { createUserWithEmailAndPassword } from "firebase/auth"; // Importar a função aqui
+import { auth } from "../../../config/firebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
-import { useAuth } from "../../../config/AuthContext"; // Importando o contexto de autenticação
-import { useRouter } from "next/navigation"; // Importando useRouter para redirecionamento
+import { useAuth } from "../../../config/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
-  const { user } = useAuth(); // Obtendo o usuário do contexto de autenticação
-  const router = useRouter(); // Inicializando o roteador
+  const { user } = useAuth(); 
+  const router = useRouter(); 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

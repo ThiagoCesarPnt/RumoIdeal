@@ -39,7 +39,7 @@ export default function TripPlanner() {
         closeGuestsInput={closeGuestsInput}
         openGuestsInput={openGuestsInput}
         setDestination={setDestination}
-        setEventStartAndEndDates={setEventStartAndEndDates} // A função setEventStartAndEndDates está sendo passada aqui
+        setEventStartAndEndDates={setEventStartAndEndDates} 
       />
       <button onClick={handleSave} className="mt-4 p-2 bg-blue-500 text-white rounded">
         Salvar Viagem

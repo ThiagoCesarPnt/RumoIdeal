@@ -1,4 +1,4 @@
-// pages/termos-e-privacidade.tsx
+
 
 export const metadata = {
   title: "Termos e Privacidade",

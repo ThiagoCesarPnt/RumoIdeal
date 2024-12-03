@@ -8,7 +8,7 @@ import { ptBR } from "date-fns/locale";
 
 interface CreateActivityModalProps {
   closeCreateActivityModal: () => void;
-  addActivity?: (activity: { id: string; title: string; occurs_at: string; date: string; }) => void; // `addActivity` agora é opcional
+  addActivity?: (activity: { id: string; title: string; occurs_at: string; date: string; }) => void;
 }
 
 export default function CreateActivityModal({

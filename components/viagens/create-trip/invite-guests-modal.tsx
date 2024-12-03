@@ -1,6 +1,6 @@
 import { X, AtSign, Plus, Trash2 } from "lucide-react";
 import { FormEvent, useState, useEffect } from "react";
-import { db, collection, addDoc, getDocs, deleteDoc, doc } from "../../../config/firebaseConfig"; // Importando as configurações do Firebase
+import { db, collection, addDoc, getDocs, deleteDoc, doc } from "../../../config/firebaseConfig";
 
 interface InviteGuestsModalProps {
   closeGuestsModal: () => void;
@@ -18,7 +18,7 @@ export default function InviteGuestsModal({
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
-  const [convidados, setConvidados] = useState<any[]>([]); // Estado para armazenar os convidados
+  const [convidados, setConvidados] = useState<any[]>([]);
 
   // Obter o ID da viagem do localStorage
   const tripId = localStorage.getItem("selectedTripId");
@@ -32,7 +32,7 @@ export default function InviteGuestsModal({
           .map(doc => ({ ...doc.data(), id: doc.id }))
           .filter(convidado => convidado.tripId === tripId); // Filtra pela viagem
 
-        console.log("Convidados:", convidadosList);  // Verificando o retorno
+        console.log("Convidados:", convidadosList);
         setConvidados(convidadosList);
       } catch (err) {
         console.error("Erro ao buscar convidados:", err);
@@ -46,28 +46,28 @@ export default function InviteGuestsModal({
     event.preventDefault();
     if (email && name && tripId) {
       try {
-        // Adicionando o tripId ao convidado
+        
         const docRef = await addDoc(collection(db, "convidados"), {
           name,
           email,
           createdAt: new Date(),
-          tripId: tripId, // Salva o ID da viagem junto ao convidado
+          tripId: tripId,
         });
 
         console.log("Convidado adicionado com ID:", docRef.id);
 
-        // Passa o email e o nome diretamente para addNewEmailToInvite
+        
         addNewEmailToInvite(email, name);
 
         setEmail('');
         setName('');
         setError(null);
 
-        // Após adicionar o convidado, recarrega a lista de convidados
+        
         const convidadosSnapshot = await getDocs(collection(db, "convidados"));
         const convidadosList = convidadosSnapshot.docs
           .map(doc => ({ ...doc.data(), id: doc.id }))
-          .filter(convidado => convidado.tripId === tripId); // Filtra pela viagem
+          .filter(convidado => convidado.tripId === tripId);
         setConvidados(convidadosList);
 
       } catch (err) {
@@ -79,11 +79,11 @@ export default function InviteGuestsModal({
     }
   };
 
-  // Função para excluir o convidado
+  //Excluir convidados
   const handleDeleteConvidado = async (id: string) => {
     try {
       const convidadoDocRef = doc(db, "convidados", id);
-      await deleteDoc(convidadoDocRef); // Exclui o documento do Firestore
+      await deleteDoc(convidadoDocRef); 
       console.log("Convidado excluído com ID:", id);
 
       // Atualiza a lista de convidados

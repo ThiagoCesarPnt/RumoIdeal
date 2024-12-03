@@ -25,7 +25,7 @@ export default function SignIn() {
       localStorage.setItem("email", email);
 
       setSuccessMessage("Login realizado com sucesso!");
-      setTimeout(() => router.push("/"), 1500); // Redireciona após 1,5 segundos
+      setTimeout(() => router.push("/"), 1500); 
     } catch (error: any) {
       console.error("Erro ao fazer login:", error);
       setError("Erro ao fazer login: " + error.message);
@@ -35,7 +35,7 @@ export default function SignIn() {
   useEffect(() => {
     // Verifica se o usuário já está logado e redireciona se necessário
     if (localStorage.getItem("isLoggedIn") === "true") {
-      router.push("/"); // Redireciona para a página inicial
+      router.push("/"); 
     }
   }, []);
 

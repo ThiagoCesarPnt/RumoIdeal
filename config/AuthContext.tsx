@@ -1,7 +1,7 @@
 // context/AuthContext.tsx
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../config/firebaseConfig"; // Ajuste o caminho conforme necessário
+import { auth } from "../config/firebaseConfig"; 
 import { onAuthStateChanged, User } from "firebase/auth";
 
 interface AuthContextType {
@@ -18,7 +18,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(user);
     });
 
-    return () => unsubscribe(); // Limpa o listener ao desmontar o componente
+    return () => unsubscribe();
   }, []);
 
   return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;

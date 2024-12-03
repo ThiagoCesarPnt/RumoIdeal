@@ -15,7 +15,7 @@ export default function CreateImportantLinksModal({ closeCreateImportantLinkModa
     const title = data.get('title')?.toString();
     const url = data.get('url')?.toString();
 
-    const tripId = localStorage.getItem("selectedTripId"); // Recupera o ID da viagem salva no localStorage
+    const tripId = localStorage.getItem("selectedTripId"); 
 
     if (!tripId) {
       console.error("ID da viagem não encontrado. Certifique-se de que uma viagem foi selecionada.");
@@ -25,7 +25,7 @@ export default function CreateImportantLinksModal({ closeCreateImportantLinkModa
     if (title && url) {
       try {
         const linksCollection = collection(db, "important_links");
-        await addDoc(linksCollection, { title, url, tripId }); // Inclui o ID da viagem ao salvar o link
+        await addDoc(linksCollection, { title, url, tripId }); 
 
         console.log("Link salvo com sucesso:", { title, url, tripId });
         closeCreateImportantLinkModal();

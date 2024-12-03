@@ -7,7 +7,7 @@ interface Link {
   id: string;
   title: string;
   url: string;
-  tripId: string; // Adicionado para referência ao ID da viagem
+  tripId: string; 
 }
 
 export default function ImportantLinks() {
@@ -15,7 +15,7 @@ export default function ImportantLinks() {
 
   useEffect(() => {
     const fetchLinks = async () => {
-      const tripId = localStorage.getItem("selectedTripId"); // Recupera o ID da viagem salva no localStorage
+      const tripId = localStorage.getItem("selectedTripId");
 
       if (!tripId) {
         console.error("ID da viagem não encontrado. Certifique-se de que uma viagem foi selecionada.");
@@ -29,7 +29,7 @@ export default function ImportantLinks() {
           id: doc.id,
           ...doc.data() as Omit<Link, 'id'>,
         }))
-        .filter(link => link.tripId === tripId); // Filtra os links pelo ID da viagem
+        .filter(link => link.tripId === tripId);
 
       setLinks(linksList);
     };

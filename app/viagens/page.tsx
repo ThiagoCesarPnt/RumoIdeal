@@ -20,7 +20,7 @@ export default function ViagensMarcadas() {
   const [loading, setLoading] = useState(false);
   const [isClient, setIsClient] = useState(false); 
 
-  // Função para buscar as viagens
+  // Função para buscar viagens
   const fetchViagens = async () => {
     setLoading(true);
     try {
@@ -55,7 +55,7 @@ export default function ViagensMarcadas() {
     }
   };
 
-  // Função para excluir uma viagem
+  // Função para excluir viagem
   const handleDeleteTrip = async (tripId: string) => {
     const tripRef = doc(db, "trips", tripId);
     const confirmDelete = window.confirm("Você tem certeza que deseja excluir esta viagem?");
@@ -64,14 +64,13 @@ export default function ViagensMarcadas() {
       try {
         await deleteDoc(tripRef);
         console.log("Viagem excluída com sucesso:", tripId);
-        fetchViagens(); // Atualiza a lista de viagens após a exclusão
+        fetchViagens(); 
       } catch (error) {
         console.error("Erro ao excluir a viagem:", error);
       }
     }
   };
 
-  // Usar useEffect para garantir que o código seja executado no cliente
   useEffect(() => {
     if (typeof window !== "undefined") {
       setIsClient(true); 
@@ -79,12 +78,13 @@ export default function ViagensMarcadas() {
     }
   }, []); 
 
+  //Salvando dados  no localStorage
   const handleOrganizarViagem = (viagemId: string, destination: string, startDate: Date, endDate: Date) => {
     if (isClient) {
       localStorage.setItem("selectedTripId", viagemId);
       localStorage.setItem("destination", destination);
-      localStorage.setItem("startDate", startDate.toISOString()); // Salvando a data de início
-      localStorage.setItem("endDate", endDate.toISOString()); // Salvando a data de término
+      localStorage.setItem("startDate", startDate.toISOString());
+      localStorage.setItem("endDate", endDate.toISOString());
     }
   };
 

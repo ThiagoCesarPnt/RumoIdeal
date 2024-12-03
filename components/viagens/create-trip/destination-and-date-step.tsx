@@ -28,7 +28,6 @@ export default function DestinationAndDateStep({
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [destination, setLocal] = useState<string>("");
 
-  // Abrir e fechar o seletor de datas
   function openDatePicker() {
     setIsDatePickerOpen(true);
   }
@@ -44,7 +43,6 @@ export default function DestinationAndDateStep({
       ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(" até ").concat(format(eventStartAndEndDates.to, "d' de 'LLL"))
       : null;
 
-  // Continuar para a próxima etapa
   const handleContinue = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
@@ -71,15 +69,14 @@ export default function DestinationAndDateStep({
     try {
       const docRef = await addDoc(collection(db, "trips"), tripData);
 
-      // Salvar o ID da viagem, destino, e as datas no localStorage
-      localStorage.setItem("selectedTripId", docRef.id);
-      localStorage.setItem("destination", tripData.destination);
-      localStorage.setItem("startDate", tripData.startDate.toISOString()); // Salvando a data de início
-      localStorage.setItem("endDate", tripData.endDate.toISOString()); // Salvando a data de término
+      //Salvar os dados no localStorage
+      localStorage.setItem("selectedTripId", docRef.id); //ID viagem
+      localStorage.setItem("destination", tripData.destination); //Destino viagem
+      localStorage.setItem("startDate", tripData.startDate.toISOString()); //Data inicial 
+      localStorage.setItem("endDate", tripData.endDate.toISOString()); //Data final
 
       console.log("ID da viagem salvo no localStorage:", docRef.id);
 
-      // Abrir a etapa de convidados
       openGuestsInput();
     } catch (error) {
       console.error("Erro ao salvar dados da viagem:", error);
@@ -101,7 +98,7 @@ export default function DestinationAndDateStep({
           }}
         />
       </div>
-
+        
       <button
         disabled={isGuestsInputOpen}
         onClick={openDatePicker}

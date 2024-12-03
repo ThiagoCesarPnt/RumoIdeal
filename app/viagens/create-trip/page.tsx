@@ -13,10 +13,7 @@ export default function CreateTripPage() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false)
   const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false)
 
-  const [emailsToInvite, setEmailsToInvite] = useState([
-    'diego@rocketseat.com.br',
-    'john@acme.com'
-  ])
+  const [emailsToInvite, setEmailsToInvite] = useState([])
 
   const [destination, setDestination] = useState('')
   const [ownerName, setOwnerName] = useState('')
