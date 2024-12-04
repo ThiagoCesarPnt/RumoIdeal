@@ -2,7 +2,7 @@
 
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import dynamic from "next/dynamic"; 
+import dynamic from "next/dynamic";
 
 const CreateActivityModal = dynamic(
   () => import("../../../components/viagens/organizarviagem/activities/create-activity-modal"),
@@ -39,26 +39,15 @@ const PageIllustration = dynamic(
   { ssr: false }
 );
 
+const HostelsModal = dynamic(
+  () => import("../../../components/viagens/organizarviagem/Hoteis/HotelsModal"),
+  { ssr: false }
+);
+
 export default function TripDetailsPage() {
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false);
   const [isCreateImportantLinksModalOpen, setIsCreateImportantLinksModalOpen] = useState(false);
-  const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false);
-  const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
-  const [emailsToInvite, setEmailsToInvite] = useState([]);
-
-  function openGuestsInput() {
-    setIsGuestsInputOpen(true);
-  }
-  function closeGuestsInput() {
-    setIsGuestsInputOpen(false);
-  }
-
-  function openGuestsModal() {
-    setIsGuestsModalOpen(true);
-  }
-  function closeGuestsModal() {
-    setIsGuestsModalOpen(false);
-  }
+  const [isHostelsModalOpen, setIsHostelsModalOpen] = useState(false);
 
   function openCreateActivityModal() {
     setIsCreateActivityModalOpen(true);
@@ -74,13 +63,20 @@ export default function TripDetailsPage() {
     setIsCreateImportantLinksModalOpen(false);
   }
 
+  function openHostelsModal() {
+    setIsHostelsModalOpen(true);
+  }
+  function closeHostelsModal() {
+    setIsHostelsModalOpen(false);
+  }
+
   return (
     <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
       <PageIllustration />
       <DestinationAndDateHeader />
 
       <main className="flex gap-16 px-4">
-        <div className="flex-1 space-y-6 ">
+        <div className="flex-1 space-y-6">
           <div className="flex items-center gap-28 justify-between">
             <h2 className="text-3xl font-semibold">Atividades</h2>
             <button
@@ -105,6 +101,13 @@ export default function TripDetailsPage() {
           </button>
           <div className="w-full h-px bg-zinc-800" />
           <Guests />
+          <button
+            onClick={openHostelsModal}
+            className="flex items-center gap-2 hover:bg-zinc-800 w-full h-11"
+          >
+            <Plus className="size-5" />
+            Adicionar hospedagem
+          </button>
         </div>
       </main>
 
@@ -115,6 +118,8 @@ export default function TripDetailsPage() {
       {isCreateImportantLinksModalOpen && (
         <CreateImportantLinksModal closeCreateImportantLinkModal={closeCreateImportantLinkModal} />
       )}
+
+      {isHostelsModalOpen && <HostelsModal closeHostelsModal={closeHostelsModal} />}
     </div>
   );
 }
